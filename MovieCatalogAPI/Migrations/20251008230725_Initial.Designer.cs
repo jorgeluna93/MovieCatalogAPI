@@ -12,7 +12,7 @@ using MovieCatalogAPI.DAL;
 namespace MovieCatalogAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251007192409_Initial")]
+    [Migration("20251008230725_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -82,8 +82,9 @@ namespace MovieCatalogAPI.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Title")
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
