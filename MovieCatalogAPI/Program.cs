@@ -5,6 +5,7 @@ using MovieCatalogAPI.Repositories.Interfaces;
 using MovieCatalogAPI.Services.Implementations;
 using MovieCatalogAPI.Services.Interfaces;
 
+
 var builder = WebApplication.CreateBuilder(args);
 // Modification: Add services to the container.
 builder.Services.AddScoped<IGenreService, GenreService>();
@@ -21,8 +22,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy => policy.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
 
 var app = builder.Build();
+
+//Ad cors policy
+
+
 // Modification: Add seed an ensure migration
 using (var scope = app.Services.CreateScope())
 {
@@ -38,7 +50,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowLocalhost");
 app.UseAuthorization();
 
 app.MapControllers();
